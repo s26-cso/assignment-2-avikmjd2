@@ -1,0 +1,8 @@
+1) used gets instead of scanf
+
+ra i 8
+s0 is 8
+buffer is 176 
+
+using padding 184 we get to the ra part
+and ra returns to passed part then it prints and we are successed!

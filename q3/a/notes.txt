@@ -1,0 +1,68 @@
+000000000001062a <main>:
+   1062a:	1141                	addi	sp,sp,-16
+   1062c:	e406                	sd	ra,8(sp)
+   1062e:	e022                	sd	s0,0(sp)
+   10630:	840a                	mv	s0,sp
+   10632:	7139                	addi	sp,sp,-64
+   10634:	00074517          	auipc	a0,0x74
+   10638:	94453503          	ld	a0,-1724(a0) # 83f78 <_GLOBAL_OFFSET_TABLE_+0x8>
+   1063c:	858a                	mv	a1,sp
+   1063e:	297040ef          	jal	150d4 <__scanf>
+   10642:	850a                	mv	a0,sp
+   10644:	00074597          	auipc	a1,0x74
+   10648:	93c5b583          	ld	a1,-1732(a1) # 83f80 <_GLOBAL_OFFSET_TABLE_+0x10>
+   1064c:	5f7170ef          	jal	28442 <strcmp>
+   10650:	e901                	bnez	a0,10660 <.fail>
+
+from instruction location code its a 4 bytes machine
+
+strcmp is at 28442
+not equal (non success address ) is at 10650
+.pass is at 0000000000010652 <.pass>:
+therefore
+success address isat  0x10652
+
+from above buffer is 64 bytes + saved register is 8 bytes
+so padding = 72 bytes
+
+ra is 8bytes
+s0 = 8 bytes
+buffer = 64 bytes
+we target the ra to go directly into our given address
+
+in part a this faild as it was implicitely set to %63s meaning if we gave 100 char it will restrict to 63 only so the method failed
+
+
+Approach 2
+
+command:
+strings target_avikmjd2.exe | grep -A5 -B5 "passed"
+
+
+`Bd&
+'$Bd
+Enter the secret code:
+%63s
+Hta5syxFGSjk8K8721INI+tOvZcXgyCZnr2gGjDzYhI=
+You have passed!
+Sorry, try again.
+libc-start.c
+__ehdr_start.e_phentsize == sizeof *GL(dl_phdr)
+Unexpected reloc type in static binary.
+FATAL: kernel too old
+--
+object.0
+__frame_dummy_init_array_entry
+ccoSJB4I.o
+prompt
+secret
+passed
+.fail
+.pass
+.end
+libc-start.o
+call_fini
+
+it worked !! as the password was stored in direct format without any hash 
+like char *pwd = "PASSWORD_HERE";
+so it lived in the code as binary text and was found
