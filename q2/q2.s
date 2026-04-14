@@ -6,6 +6,17 @@
 .global main
 
 main:
+
+    addi sp, sp, -64
+    sd ra, 56(sp)
+    sd s0, 48(sp)
+    sd s2, 40(sp)
+    sd s3, 32(sp)
+    sd s4, 24(sp)
+    sd s5, 16(sp)
+    sd s6, 8(sp)
+    sd s11, 0(sp)
+
     #a0 is argc, a1 = argv
     #The first argument is the program name so n = argc - 1
     addi s0,a0,-1 #s0 = n
@@ -137,7 +148,17 @@ print_done:
     call printf
 
 end_program:
+    ld ra, 56(sp)
+    ld s0, 48(sp)
+    ld s2, 40(sp)
+    ld s3, 32(sp)
+    ld s4, 24(sp)
+    ld s5, 16(sp)
+    ld s6, 8(sp)
+    ld s11, 0(sp)
+    addi sp, sp, 64
+
     li a0, 0
-    call exit
+    ret
 
 

@@ -9,7 +9,9 @@ int main()
 
     void *handle = NULL;
     char loaded_op[6] = "";
-
+    typedef int (*op_fn)(int ,int);
+    op_fn fn = NULL;
+    
     while(scanf("%5s %d %d", op,&num1,&num2)==3)
     {
         if(strcmp(op,loaded_op)!=0)
@@ -35,8 +37,8 @@ int main()
             loaded_op[5] = '\0';
         }
 
-        typedef int (*op_fn)(int ,int);
-        op_fn fn = (op_fn) dlsym(handle, op);
+        dlerror();
+        fn = (op_fn) dlsym(handle, op);
 
         char *err = dlerror();
 

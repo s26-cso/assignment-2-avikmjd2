@@ -12,9 +12,9 @@ yes_msg: .string "Yes\n"
 no_msg: .string "No\n"
 
 .section .text
-.global _start
+.global main
 
-_start:
+main:
     li a7, 56 #openat syscall
     li a0, -100 # AT_FDCWD
     la a1, filename
@@ -55,7 +55,7 @@ loop:
     ecall
 
     lb s4, 0(sp)  #s4 = ch_left
-    addi sp,sp,1
+    addi sp,sp,16
 
 
     #seek to right, read 1 byte
@@ -66,14 +66,14 @@ loop:
     ecall
 
 
-    addi    sp, sp, -1
+    addi    sp, sp, -16
     li      a7, 63
     mv      a0, s0
     mv      a1, sp
     li      a2, 1
     ecall
     lb      s5, 0(sp)       # s5 = ch_right
-    addi    sp, sp, 1
+    addi    sp, sp, 16
 
 
 
