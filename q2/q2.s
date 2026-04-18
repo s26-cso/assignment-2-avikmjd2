@@ -104,20 +104,20 @@ while_loop:
 while_done:
     # put the ans in ans[i]
     # calculate the ans[i]
-    slli t6,s3,2
-    add t6,t6,s2
+    slli t0,s3,2
+    add t0,t0,s2
 
     # tack is empty so give -1
-    li t0,-1
-    beq s5,t0, stack_empty
+    li t1,-1
+    beq s5,t1, stack_empty
 
     # result is top of stack
-    sw t4, 0(t6)
+    sw t6, 0(t0)
     j push
 
 stack_empty:
-    li t0, -1
-    sw t0, 0(t6)
+    li t1, -1
+    sw t1, 0(t0)
 
 
 push:
