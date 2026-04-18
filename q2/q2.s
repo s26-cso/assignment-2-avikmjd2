@@ -1,5 +1,6 @@
 .data
     fmt_int: .string "%d "
+    fmt_int2: .string "%d"
     fmt_nl:  .string "\n"
 .text
 
@@ -112,7 +113,7 @@ while_done:
     beq s5,t1, stack_empty
 
     # result is top of stack
-    sw t6, 0(t0)
+    sw t4, 0(t0)
     j push
 
 stack_empty:
@@ -132,16 +133,29 @@ push:
 
 nge_done:
     li s3,0
+    addi t0, s0, -1
 
 print_loop:
-    bge s3, s0, print_done
-    slli t0, s3, 2
-    add t0, s2, t0
-    lw a1, 0(t0)
+    addi t0, s0, -1
+    bge s3, t0, print_last
+    slli t1, s3, 2
+    add t1, s2, t1
+    lw a1, 0(t1)
     la a0, fmt_int
     call printf
+
     addi s3, s3, 1
     j print_loop
+
+print_last:
+    slli t1, s3, 2
+    add t1, s2, t1
+    lw a1, 0(t1)
+    la a0, fmt_int2
+    call printf
+    la a0, fmt_nl
+    call printf
+    j end_program
 
 print_done:
     la a0, fmt_nl
